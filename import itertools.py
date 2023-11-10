@@ -1,4 +1,5 @@
 import random
+import matplotlib.pyplot as plt
 
 def simulate_game(num_spaces, num_rolls, num_dice_sides):
     all_paths = []
@@ -22,9 +23,17 @@ def print_probabilities(num_spaces, num_rolls, num_dice_sides, num_simulations):
         for space in path:
             count_pass[space] += 1
 
-    for space in range(num_spaces):
-        probability = count_pass[space] / num_simulations
+    probabilities = [count / num_simulations for count in count_pass]
+
+    for space, probability in enumerate(probabilities):
         print(f"Probability of passing through space {space} after up to {num_rolls} rolls in {num_simulations} simulations: {probability:.4f}")
+
+    # Plotting
+    plt.bar(range(num_spaces - 1), probabilities[:-1])
+    plt.xlabel('Space')
+    plt.ylabel('Probability')
+    plt.title(f'Probability of passing through each space after {num_rolls} rolls in {num_simulations} simulations')
+    plt.show()
 
 if __name__ == "__main__":
     num_spaces = 100   
@@ -33,3 +42,4 @@ if __name__ == "__main__":
     num_simulations = 10000  
 
     print_probabilities(num_spaces, num_rolls, num_dice_sides, num_simulations)
+
